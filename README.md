@@ -2,7 +2,7 @@
 Trading Automatique de Cryptomonnaies
 
 Description
-Ce projet vise à créer un système de trading automatique de cryptomonnaies permettant l'achat et la vente en fonction de règles préalablement définies. Le programme utilise l'API de la plateforme d'échange [insérer_nom_de_la_plateforme] pour accéder aux données du marché et exécuter des ordres en temps réel.
+Ce projet vise à créer un système de trading automatique de cryptomonnaies permettant l'achat et la vente en fonction de règles préalablement définies. Le programme utilise l'API de la plateforme d'échange [à ajouter ] pour accéder aux données du marché et exécuter des ordres en temps réel.
 
 Caractéristiques Principales
 Automatisation des Décisions de Trading : Définition de règles d'achat et de vente automatisées basées sur des indicateurs techniques.
