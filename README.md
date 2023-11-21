@@ -19,11 +19,13 @@ Surveillance 24/7 : Fonctionnement continu pour surveiller les opportunités de 
 
 Prérequis
 Python 3.x
-Bibliothèques Python : ccxt, numpy, pandas (Voir requirements.txt pour les détails)
+Bibliothèques Python : ccxt, numpy, pandas
+
 Comment Utiliser
-Cloner le dépôt : git clone https://github.com/votre_utilisateur/trading-automatique-crypto.git
+Cloner le dépôt : git clone https://github.com/francois-niang1/trading-automatique-crypto.git
 Installer les dépendances : pip install -r requirements.txt
 Configurer les clés API dans le fichier de configuration config.py.
 Exécuter le programme : python main.py
+
 Avertissement
 Ce projet est fourni à titre éducatif uniquement. Le trading comporte des risques importants, et l'utilisation de ce programme est à vos propres risques.
