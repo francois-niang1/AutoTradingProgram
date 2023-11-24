@@ -1,0 +1,1 @@
+from strategies.redirect_to_strategies.chose import choose

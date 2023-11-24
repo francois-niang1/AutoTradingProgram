@@ -1,7 +1,7 @@
 # Fichier principal du programme
 
 import logging
-from strategies.strategy1 import SimpleStrategy
+from strategies.mean_reversion.mean_reversion import SimpleStrategy
 from utils.api_utils import BinanceClient
 import time
 

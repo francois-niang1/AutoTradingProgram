@@ -2,7 +2,7 @@
 import tkinter as tk
 from threading import Thread
 from main import main
-from strategies.strategy1 import SimpleStrategy
+from strategies.mean_reversion.mean_reversion import SimpleStrategy
 from utils.api_utils import BinanceClient
 
 class TradingApp:
