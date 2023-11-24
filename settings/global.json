@@ -1,0 +1,6 @@
+{
+  "interval": "1h",
+  "limit": 50,
+  "execute_buy_percentage": 0.2,
+  "execute_sell_percentage": 0.2
+}

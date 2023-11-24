@@ -1,5 +1,4 @@
-from settings import load_json_from_URL
-from strategies.redirect_to_strategies.mean_reversion.config.consts import (
+from auto_trader.strategies.redirect_to_strategies.mean_reversion.config.consts import (
     MIN_DROP,
     MAXIMUM_DROP,
     BUY_PERCENTAGE,
@@ -10,9 +9,9 @@ from strategies.redirect_to_strategies.mean_reversion.config.consts import (
     REFILL_PERCENTAGE_SELL,
 )
 
+
 class Mean_reversion:
-    def __init__(self, initial_balance: int = 1000):
-        self.PARAMS: dict = load_json_from_URL()
+    def __init__(self, initial_balance: int):
         self.balance: int = initial_balance
         self.holdings: int = 0
 

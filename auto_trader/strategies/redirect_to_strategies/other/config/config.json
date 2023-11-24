@@ -1,0 +1,14 @@
+{
+  "buy": {
+    "min_drop": 0,
+    "maximum_drop": 0,
+    "buy_percentage": 0.0,
+    "refill_percentage": 0.0
+  },
+  "sell": {
+    "min_rise": 0,
+    "maximum_rise": 0,
+    "sell_percentage": 0.0,
+    "refill_percentage": 0.0
+  }
+}

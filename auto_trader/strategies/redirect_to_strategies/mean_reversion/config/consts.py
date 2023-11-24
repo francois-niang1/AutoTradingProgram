@@ -16,15 +16,18 @@ from settings import (
     MAXIMUM_RISE_STR,
     SELL_PERCENTAGE_STR,
     BUY_STR,
+    AUTO_TRADER_STR,
     load_json_from_URL,
+    CONFIG_JSON_STR,
 )
 
 PARAMS_PATH = os.path.join(
+    AUTO_TRADER_STR,
     STRATEGIES_STR,
     REDIRECT_TO_STRATEGIES_STR,
     MEAN_REVERSION_STR,
     CONFIG_STR,
-    CONFIG_PY_STR,
+    CONFIG_JSON_STR,
 )
 
 PARAMS = load_json_from_URL(PARAMS_PATH)

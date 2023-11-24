@@ -1,0 +1,1 @@
+from auto_trader.strategies.redirect_to_strategies.chose import choose
