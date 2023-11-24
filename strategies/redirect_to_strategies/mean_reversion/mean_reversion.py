@@ -1,8 +1,20 @@
+from settings import load_json_from_URL
+from strategies.redirect_to_strategies.mean_reversion.config.consts import (
+    MIN_DROP,
+    MAXIMUM_DROP,
+    BUY_PERCENTAGE,
+    REFILL_PERCENTAGE_BUY,
+    MIN_RISE,
+    MAXIMUM_RISE,
+    SELL_PERCENTAGE,
+    REFILL_PERCENTAGE_SELL,
+)
+
 class Mean_reversion:
     def __init__(self, initial_balance: int = 1000):
+        self.PARAMS: dict = load_json_from_URL()
         self.balance: int = initial_balance
         self.holdings: int = 0
-        self.profit_percentage: float = 0.2  # 20 % de la somme pour le gain
 
     def should_buy(self, current_price: float, historical_data: list) -> bool:
         """
@@ -14,27 +26,18 @@ class Mean_reversion:
         Returns:
             bool -> The decision to buy or not
         """
-
-        min_drop: int = -20
-        maximum_drop: int = -10
-        buy_percentage: float = 0.2
-        refill_percentage: float = 0.2
-
         # Calculer la variation en pourcentage par rapport à la période précédente
         price_change_percentage = (
             (current_price - historical_data[-1]) / historical_data[-1]
         ) * 100
         # Condition pour acheter lorsque le marché baisse de 10 à 20 %
-        if min_drop <= price_change_percentage <= maximum_drop:
+        if MIN_DROP <= price_change_percentage <= MAXIMUM_DROP:
             # Calculer la quantité à acheter (20 % du solde actuel)
-            amount_to_buy = buy_percentage * self.balance
-
+            amount_to_buy = BUY_PERCENTAGE * self.balance
             # Mettre de côté 20 % de la somme pour le gain
-            self.balance -= refill_percentage * amount_to_buy
+            self.balance -= REFILL_PERCENTAGE_BUY * amount_to_buy
             self.holdings += amount_to_buy / current_price
-
             return True
-
         return False
 
     def should_sell(self, current_price: float, historical_data: list) -> bool:
@@ -47,25 +50,17 @@ class Mean_reversion:
         Returns:
             bool -> The decision to sell or not
         """
-        min_rise: int = 10
-        maximum_rise: int = 20
-        sell_percentage: float = 0.2
-        refill_percentage: float = 0.2
-
         # Calculer la variation en pourcentage par rapport à la période précédente
         price_change_percentage = (
             (current_price - historical_data[-1]) / historical_data[-1]
         ) * 100
 
         # Condition pour vendre lorsque le marché augmente de 10 à 20 %
-        if min_rise <= price_change_percentage <= maximum_rise:
+        if MIN_RISE <= price_change_percentage <= MAXIMUM_RISE:
             # Calculer la quantité à vendre (20 % des holdings actuels)
-            amount_to_sell = sell_percentage * self.holdings * current_price
-
+            amount_to_sell = SELL_PERCENTAGE * self.holdings * current_price
             # Mettre de côté 20 % de la somme pour le gain
-            self.balance += refill_percentage * amount_to_sell
-            self.holdings -= refill_percentage * self.holdings
-
+            self.balance += REFILL_PERCENTAGE_SELL * amount_to_sell
+            self.holdings -= REFILL_PERCENTAGE_SELL * self.holdings
             return True
-
         return False

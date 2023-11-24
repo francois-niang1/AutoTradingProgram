@@ -1,17 +1,18 @@
 # Fichier principal du programme
 
 import logging
-from strategies.mean_reversion.mean_reversion import SimpleStrategy
+from strategies import Strategy
 from utils.api_utils import BinanceClient
 import time
 
 # Configuration du module de journalisation
-logging.basicConfig(filename='trading_log.txt', level=logging.ERROR)
+logging.basicConfig(filename='trading_log.txt')
 
 def main():
+    current_strategy: str = "Mean_reversion" 
     symbol = 'BTC/USDT'
     binance_client = BinanceClient()
-    strategy = SimpleStrategy()
+    strategy = Strategy()
 
     while True:
         try:
