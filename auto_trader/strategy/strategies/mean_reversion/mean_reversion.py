@@ -1,7 +1,7 @@
-from .config.consts import MeanReversionSettings
+from .mean_reversion_settings import MeanReversionSettings
+from ...trading_strategy import TradingStrategy
 
-
-class Mean_reversion:
+class MeanReversion(TradingStrategy):
     def __init__(self, initial_balance: int):
         self.balance: int = initial_balance
         self.holdings: int = 0

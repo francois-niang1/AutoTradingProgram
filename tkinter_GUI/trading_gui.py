@@ -2,7 +2,7 @@
 import tkinter as tk
 from threading import Thread
 from auto_trader import auto_trade
-from auto_trader.strategies import Strategy
+from auto_trader.strategy import Strategy
 from auto_trader.ccxt_binance.binance_client import BinanceClient
 
 

@@ -1,4 +1,6 @@
-class Other:
+from ...trading_strategy import TradingStrategy
+
+class OtherStrategy(TradingStrategy):
     def __init__(self, initial_balance: int):
         self.initial_balance = initial_balance
 

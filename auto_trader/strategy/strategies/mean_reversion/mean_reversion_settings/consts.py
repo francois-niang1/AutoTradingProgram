@@ -1,16 +1,16 @@
 import os
 from env import String, load_json_from_URL
 
-PARAMS_PATH = os.path.join(
-    String.AUTO_TRADER,
-    String.STRATEGIES,
-    String.REDIRECT_TOATEGIES,
-    String.MEAN_REVERSION,
-    String.CONFIG,
-    String.CONFIG_JSON,
-)
 
 class MeanReversionSettings:
+    PARAMS_PATH = os.path.join(
+        String.AUTO_TRADER,
+        String.STRATEGIES,
+        String.REDIRECT_TOATEGIES,
+        String.MEAN_REVERSION,
+        String.CONFIG,
+        String.CONFIG_JSON,
+    )
     PARAMS = load_json_from_URL(PARAMS_PATH)
     MIN_DROP: int = PARAMS[String.BUY][String.MIN_DROP]
     MAXIMUM_DROP: int = PARAMS[String.BUY][String.MAXIMUM_DROP]

@@ -1,47 +1,53 @@
 import time
 
-from auto_trader import Strategy, BinanceClient
+from auto_trader import (
+    TradingStrategy,
+    TradingStrategyFactory,
+    TradingStrategyType,
+    BinanceClient,
+)
 from env import String, Const
 
 
 def auto_trade():
-    currentategy: str = String.MEAN_REVERSION
-    symbol = String.SYMBOL
-    binance_client = BinanceClient()
-    strategy = Strategy(String.MEAN_REVERSION, currentategy)
+    binance_object: BinanceClient = BinanceClient()
+    strategy: TradingStrategy = TradingStrategyFactory.create(
+        TradingStrategyType.MeanReversion
+    )
 
     while True:
         try:
             # Obtenir le prix actuel
-            current_price = binance_client.get_ticker_price(symbol)
+            current_price: int = binance_object.get_ticker_price(String.SYMBOL)
 
             # Obtenir des données historiques (à implémenter)
-            historical_data = get_historical_data(binance_client.client, symbol)
+            historical_data: list[int] = get_historical_data(binance_object.client, String.SYMBOL)
 
             # Logique de trading
             if strategy.should_buy(current_price, historical_data):
                 execute_buy_order(
-                    binance_client.client, symbol, Const.EXECUTE_BUY_PERCENTAGE
+                    binance_object.client, String.SYMBOL, Const.EXECUTE_BUY_PERCENTAGE
                 )  # Acheter 20 % du solde
 
             elif strategy.should_sell(current_price, historical_data):
                 execute_sell_order(
-                    binance_client.client, symbol, Const.EXECUTE_SELL_PERCENTAGE
+                    binance_object.client, String.SYMBOL, Const.EXECUTE_SELL_PERCENTAGE
                 )  # Vendre 20 % des holdings
 
             # Pause entre les itérations (à ajuster selon la stratégie)
             time.sleep(60)
 
         except Exception as e:
-            error_message = f"Une erreur s'est produite : {e}"
+            error_message: str = f"Une erreur s'est produite : {e}"
             Const.LOGGER.error(error_message)
-            print(error_message)
 
 
-def get_historical_data(binance_client, symbol, interval=Const.INTERVAL, limit=Const.LIMIT):
+def get_historical_data(
+    binance_object: ccxt.binance, symbol: str, interval=Const.INTERVAL, limit=Const.LIMIT
+):
     try:
         # Utilisez l'API Binance pour obtenir les données historiques (klines)
-        ohlcv = binance_client.fetch_ohlcv(symbol, interval, limit=limit)
+        ohlcv = binance_object.fetch_ohlcv(symbol, Const.INTERVAL, limit=Const.LIMIT)
 
         # Extrayez uniquement les prix de clôture (closes)
         historical_data = [candle[4] for candle in ohlcv]
@@ -51,45 +57,45 @@ def get_historical_data(binance_client, symbol, interval=Const.INTERVAL, limit=C
     except Exception as e:
         error_message = f"Une erreur s'est produite lors de la récupération des données historiques : {e}"
         Const.LOGGER.error(error_message)
-        print(error_message)
         return []
 
 
-def execute_buy_order(binance_client, symbol, percentage):
+def execute_buy_order(binance_object: BinanceClient, symbol: str, percentage: float):
     try:
         # Obtenir le solde actuel
-        balance = binance_client.fetch_balance()
-        free_balance = balance[String.TOTAL][String.USDT]
+        balance: float = binance_object.fetch_balance()
+        free_balance: float = balance[String.TOTAL][String.USDT]
 
         # Calculer la quantité à acheter (un pourcentage du solde actuel)
-        amount_to_buy = percentage * free_balance
+        amount_to_buy: float = percentage * free_balance
 
         # Exécuter l'ordre d'achat au marché
-        order = binance_client.create_market_buy_order(symbol, amount_to_buy)
+        order = binance_object.create_market_buy_order(symbol, amount_to_buy)
 
         print(
-            f"Ordre d'achat exécuté pour {symbol}. Montant : {amount_to_buy}. ID de commande : {order['id']}"
+            f"Ordre d'achat exécuté pour {String.SYMBOL}. Montant : {amount_to_buy}. ID de commande : {order['id']}"
         )
 
     except Exception as e:
-        error_message = (
+        error_message: str = (
             f"Une erreur s'est produite lors de l'exécution de l'ordre d'achat : {e}"
         )
         Const.LOGGER.error(error_message)
 
-def execute_sell_order(binance_client, symbol, percentage):
+
+def execute_sell_order(binance_object, symbol, percentage):
     try:
         # Obtenir le solde actuel de l'actif détenu
-        holdings = binance_client.fetch_balance()[symbol.replace("/", "")][String.FREE]
+        holdings = binance_object.fetch_balance()[String.SYMBOL.replace("/", "")][String.FREE]
 
         # Calculer la quantité à vendre (un pourcentage des holdings actuels)
         amount_to_sell = percentage * float(holdings)
 
         # Exécuter l'ordre de vente au marché
-        order = binance_client.create_market_sell_order(symbol, amount_to_sell)
+        order = binance_object.create_market_sell_order(String.SYMBOL, amount_to_sell)
 
         print(
-            f"Ordre de vente exécuté pour {symbol}. Montant : {amount_to_sell}. ID de commande : {order['id']}"
+            f"Ordre de vente exécuté pour {String.SYMBOL}. Montant : {amount_to_sell}. ID de commande : {order['id']}"
         )
 
     except Exception as e:
