@@ -4,11 +4,11 @@ from env import String, load_json_from_URL
 
 class MeanReversionSettings:
     PARAMS_PATH = os.path.join(
-        String.AUTO_TRADER,
+        String.TRADER,
+        String.STRATEGY,
         String.STRATEGIES,
-        String.REDIRECT_TOATEGIES,
         String.MEAN_REVERSION,
-        String.CONFIG,
+        String.MEAN_REVERSION_SETTINGS,
         String.CONFIG_JSON,
     )
     PARAMS = load_json_from_URL(PARAMS_PATH)

@@ -1,9 +1,7 @@
 # interface graphique
 import tkinter as tk
 from threading import Thread
-from auto_trader import auto_trade
-from auto_trader.strategy import Strategy
-from auto_trader.ccxt_binance.binance_client import BinanceClient
+from Trader import auto_trade
 
 
 class TradingApp:
@@ -25,8 +23,6 @@ class TradingApp:
         self.status_label.pack()
 
         self.trading_thread = None
-        self.binance_client = BinanceClient()
-        self.strategy = Strategy(initial_balance=self.binance_client)
 
     def start_trading(self):
         self.status_label.config(text="Status: Trading")

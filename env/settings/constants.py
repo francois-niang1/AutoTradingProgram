@@ -16,16 +16,14 @@ def logger(logs_path: str) -> logging.Logger:
     logger_gui.addHandler(ch)
     logging.basicConfig(filename=logs_path)
     return logger_gui
-
-
 class Const:
     KEY_PATH: str = os.path.join(
-        String.AUTO_TRADER, String.CCXT_BINANCE, String.KEY_JSON
+        String.TRADER, String.CCXT_BINANCE, String.KEY_JSON
     )
     KEYS: dict = load_json_from_URL(KEY_PATH)
     BINANCE_API_KEY: str = KEYS[String.BINANCE_API_KEY]
     BINANCE_SECRET_KEY: str = KEYS[String.BINANCE_SECRET_KEY]
-    GLOBAL_CONFIG_PATH: str = os.path.join(String.SETTINGS, String.GLOBAL_JSON)
+    GLOBAL_CONFIG_PATH: str = os.path.join(String.ENV, String.GLOBAL_JSON)
     GLOBAL_CONFIG: dict = load_json_from_URL(GLOBAL_CONFIG_PATH)
     INTERVAL: str = GLOBAL_CONFIG[String.INTERVAL]
     LIMIT: int = GLOBAL_CONFIG[String.LIMIT]

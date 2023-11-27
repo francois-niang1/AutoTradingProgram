@@ -1,4 +1,4 @@
-from auto_trader import auto_trade
+from Trader import auto_trade
 
 
 def main():

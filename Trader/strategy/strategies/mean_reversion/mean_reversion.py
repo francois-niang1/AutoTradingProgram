@@ -2,7 +2,7 @@ from .mean_reversion_settings import MeanReversionSettings
 from ...trading_strategy import TradingStrategy
 
 class MeanReversion(TradingStrategy):
-    def __init__(self, initial_balance: int):
+    def __init__(self, initial_balance: int = 1000):
         self.balance: int = initial_balance
         self.holdings: int = 0
 

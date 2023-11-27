@@ -34,6 +34,10 @@ class String:
     EXECUTE_BUY_PERCENTAGE: str = "execute_buy_percentage"
     EXECUTE_SELL_PERCENTAGE: str = "execute_sell_percentage"
     GLOBAL_JSON: str = "global.json"
+    TRADER: str = "Trader"
+    ENV: str = "env"
+    STRATEGY: str = "strategy"
+    MEAN_REVERSION_SETTINGS: str = "mean_reversion_settings"
     # QUERY
     TOTAL: str = "total"
     USDT: str = "USDT"
