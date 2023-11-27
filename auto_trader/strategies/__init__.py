@@ -1,1 +1,1 @@
-from auto_trader.strategies.strategy_interpreter import Strategy
+from .strategy_interpreter import Strategy

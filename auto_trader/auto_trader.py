@@ -1,27 +1,14 @@
-# Fichier principal du programme
-
-from auto_trader.strategies import Strategy
-from auto_trader.ccxt_binance.binance_client import BinanceClient
 import time
-from settings import (
-    SYMBOL_STR,
-    MEAN_REVERSION_STR,
-    TOTAL_STR,
-    USDT_STR,
-    FREE_STR,
-    LOGGER,
-    INTERVAL,
-    LIMIT,
-    EXECUTE_BUY_PERCENTAGE,
-    EXECUTE_SELL_PERCENTAGE,
-)
+
+from auto_trader import Strategy, BinanceClient
+from env import String, Const
 
 
 def auto_trade():
-    current_strategy: str = MEAN_REVERSION_STR
-    symbol = SYMBOL_STR
+    currentategy: str = String.MEAN_REVERSION
+    symbol = String.SYMBOL
     binance_client = BinanceClient()
-    strategy = Strategy(MEAN_REVERSION_STR, current_strategy)
+    strategy = Strategy(String.MEAN_REVERSION, currentategy)
 
     while True:
         try:
@@ -34,12 +21,12 @@ def auto_trade():
             # Logique de trading
             if strategy.should_buy(current_price, historical_data):
                 execute_buy_order(
-                    binance_client.client, symbol, EXECUTE_BUY_PERCENTAGE
+                    binance_client.client, symbol, Const.EXECUTE_BUY_PERCENTAGE
                 )  # Acheter 20 % du solde
 
             elif strategy.should_sell(current_price, historical_data):
                 execute_sell_order(
-                    binance_client.client, symbol, EXECUTE_SELL_PERCENTAGE
+                    binance_client.client, symbol, Const.EXECUTE_SELL_PERCENTAGE
                 )  # Vendre 20 % des holdings
 
             # Pause entre les itérations (à ajuster selon la stratégie)
@@ -47,11 +34,11 @@ def auto_trade():
 
         except Exception as e:
             error_message = f"Une erreur s'est produite : {e}"
-            LOGGER.error(error_message)
+            Const.LOGGER.error(error_message)
             print(error_message)
 
 
-def get_historical_data(binance_client, symbol, interval=INTERVAL, limit=LIMIT):
+def get_historical_data(binance_client, symbol, interval=Const.INTERVAL, limit=Const.LIMIT):
     try:
         # Utilisez l'API Binance pour obtenir les données historiques (klines)
         ohlcv = binance_client.fetch_ohlcv(symbol, interval, limit=limit)
@@ -63,7 +50,7 @@ def get_historical_data(binance_client, symbol, interval=INTERVAL, limit=LIMIT):
 
     except Exception as e:
         error_message = f"Une erreur s'est produite lors de la récupération des données historiques : {e}"
-        LOGGER.error(error_message)
+        Const.LOGGER.error(error_message)
         print(error_message)
         return []
 
@@ -72,7 +59,7 @@ def execute_buy_order(binance_client, symbol, percentage):
     try:
         # Obtenir le solde actuel
         balance = binance_client.fetch_balance()
-        free_balance = balance[TOTAL_STR][USDT_STR]
+        free_balance = balance[String.TOTAL][String.USDT]
 
         # Calculer la quantité à acheter (un pourcentage du solde actuel)
         amount_to_buy = percentage * free_balance
@@ -88,14 +75,12 @@ def execute_buy_order(binance_client, symbol, percentage):
         error_message = (
             f"Une erreur s'est produite lors de l'exécution de l'ordre d'achat : {e}"
         )
-        LOGGER.error(error_message)
-        print(error_message)
-
+        Const.LOGGER.error(error_message)
 
 def execute_sell_order(binance_client, symbol, percentage):
     try:
         # Obtenir le solde actuel de l'actif détenu
-        holdings = binance_client.fetch_balance()[symbol.replace("/", "")][FREE_STR]
+        holdings = binance_client.fetch_balance()[symbol.replace("/", "")][String.FREE]
 
         # Calculer la quantité à vendre (un pourcentage des holdings actuels)
         amount_to_sell = percentage * float(holdings)
@@ -111,5 +96,4 @@ def execute_sell_order(binance_client, symbol, percentage):
         error_message = (
             f"Une erreur s'est produite lors de l'exécution de l'ordre de vente : {e}"
         )
-        LOGGER.error(error_message)
-        print(error_message)
+        Const.LOGGER.error(error_message)

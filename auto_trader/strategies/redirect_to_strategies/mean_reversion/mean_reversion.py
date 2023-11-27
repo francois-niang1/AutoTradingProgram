@@ -1,13 +1,4 @@
-from auto_trader.strategies.redirect_to_strategies.mean_reversion.config.consts import (
-    MIN_DROP,
-    MAXIMUM_DROP,
-    BUY_PERCENTAGE,
-    REFILL_PERCENTAGE_BUY,
-    MIN_RISE,
-    MAXIMUM_RISE,
-    SELL_PERCENTAGE,
-    REFILL_PERCENTAGE_SELL,
-)
+from .config.consts import MeanReversionSettings
 
 
 class Mean_reversion:
@@ -30,11 +21,15 @@ class Mean_reversion:
             (current_price - historical_data[-1]) / historical_data[-1]
         ) * 100
         # Condition pour acheter lorsque le marché baisse de 10 à 20 %
-        if MIN_DROP <= price_change_percentage <= MAXIMUM_DROP:
+        if (
+            MeanReversionSettings.MIN_DROP
+            <= price_change_percentage
+            <= MeanReversionSettings.MAXIMUM_DROP
+        ):
             # Calculer la quantité à acheter (20 % du solde actuel)
-            amount_to_buy = BUY_PERCENTAGE * self.balance
+            amount_to_buy = MeanReversionSettings.BUY_PERCENTAGE * self.balance
             # Mettre de côté 20 % de la somme pour le gain
-            self.balance -= REFILL_PERCENTAGE_BUY * amount_to_buy
+            self.balance -= MeanReversionSettings.REFILL_PERCENTAGE_BUY * amount_to_buy
             self.holdings += amount_to_buy / current_price
             return True
         return False
@@ -55,11 +50,21 @@ class Mean_reversion:
         ) * 100
 
         # Condition pour vendre lorsque le marché augmente de 10 à 20 %
-        if MIN_RISE <= price_change_percentage <= MAXIMUM_RISE:
+        if (
+            MeanReversionSettings.MIN_RISE
+            <= price_change_percentage
+            <= MeanReversionSettings.MAXIMUM_RISE
+        ):
             # Calculer la quantité à vendre (20 % des holdings actuels)
-            amount_to_sell = SELL_PERCENTAGE * self.holdings * current_price
+            amount_to_sell = (
+                MeanReversionSettings.SELL_PERCENTAGE * self.holdings * current_price
+            )
             # Mettre de côté 20 % de la somme pour le gain
-            self.balance += REFILL_PERCENTAGE_SELL * amount_to_sell
-            self.holdings -= REFILL_PERCENTAGE_SELL * self.holdings
+            self.balance += (
+                MeanReversionSettings.REFILL_PERCENTAGE_SELL * amount_to_sell
+            )
+            self.holdings -= (
+                MeanReversionSettings.REFILL_PERCENTAGE_SELL * self.holdings
+            )
             return True
         return False

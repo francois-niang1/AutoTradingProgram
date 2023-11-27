@@ -1,4 +1,4 @@
-from auto_trader.strategies.redirect_to_strategies import choose
+from .redirect_to_strategies import choose
 
 
 class Strategy:
