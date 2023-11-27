@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "autotradingprogram"
+version = "0.1.0"
+description = ""
+authors = ["hugo-andriamaromanana <hugo.andriamaromanana@laplateforme.io>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ccxt = "^4.1.64"
+numpy = "^1.26.2"
+pandas = "^2.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

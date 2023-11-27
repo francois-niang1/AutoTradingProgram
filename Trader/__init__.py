@@ -1,0 +1,1 @@
+from .auto_trader import auto_trade
